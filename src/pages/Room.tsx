@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 
 import {Button} from '../components/Button';
 import {RoomCode} from '../components/RoomCode';
+import { Question } from '../components/Question';
 
 import logoImg from '../assets/images/logo.svg';
 
@@ -126,9 +127,19 @@ export function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+        <div className="question-list">
         {
-          JSON.stringify(questions)
+          questions.map((question) => {
+            return(
+              <Question
+                key = {question.id}
+                content = {question.content}
+                author = {question.author}
+              />
+            )
+          })
         }
+        </div>
       </main>
     </div>
   );
