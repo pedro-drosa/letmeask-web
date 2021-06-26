@@ -9,11 +9,15 @@ type QuestionProps = {
     avatar: string,
   },
   children?: ReactNode;
+  isAnswered?: boolean;
+  isHighlighted?: boolean;
 }
 
 export function Question(props: QuestionProps) {
   return (
-    <div className="question">
+    <div 
+      className={ `question ${props.isAnswered? 'answered':''} ${props.isHighlighted ? 'highlighted' : ''}`}
+    >
       <p>{props.content}</p>
       <footer>
         <div className="user-info">
