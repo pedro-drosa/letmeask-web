@@ -1,5 +1,5 @@
 //useParams pega o parâmetro da rota/ código da sala
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 
 import { database } from '../services/firebase';
 
@@ -20,11 +20,20 @@ type RoomParams = {
 }
 
 export function AdminRoom() {
+  const history = useHistory();
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
   // const {user} = useAuth();
   const {questions, title} = useRoom(roomId);
+
+  async function HandleEndRoom(){
+    await database.ref(`rooms/${roomId}`).update({
+      endedAt: new Date(),
+    })
+
+    history.push('/');
+  }
   
   async function handleDeleteQuestion(questionId: string) {
     if(window.confirm('Tem certeza que você deseja excluir esta pergunta?')){
@@ -39,7 +48,7 @@ export function AdminRoom() {
           <img src={logoImg} alt="Letmeask"/>
           <div>
             <RoomCode code={roomId}/>
-            <Button isOutlined>Encerrar Sala</Button>
+            <Button isOutlined onClick={HandleEndRoom}>Encerrar Sala</Button>
           </div>
         </div>
       </header>
